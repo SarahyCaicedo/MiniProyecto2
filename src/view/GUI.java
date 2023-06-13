@@ -27,7 +27,7 @@ public class GUI extends JFrame {
      */
     public GUI(){
 
-        initGUI();
+       // initGUI();
         //Default JFrame configuration
         this.setTitle("I Know That Word");
         this.setSize(400,400);
@@ -72,6 +72,7 @@ public class GUI extends JFrame {
         EventQueue.invokeLater(() -> {
             GUI miProjectGUI = new GUI();
         });
+        Nickname name = new Nickname();
     }
 
     private void CheckRecord () {

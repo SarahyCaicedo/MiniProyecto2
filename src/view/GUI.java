@@ -14,20 +14,17 @@ import java.util.Random;
  * @version v.1.0.0 date:21/03/2023
  */
 public class GUI extends JFrame {
-    private JLabel enterText;
-    private FileManager nameUser;
+
+    private Fondo image;
     private Header headerProject;
-    private JTextField nickName;
-    private Escucha escucha;
-    private JButton start;
-    private int counter;
+    public static JPanel panel;
 
     /**
      * Constructor of GUI class
      */
     public GUI(){
 
-       // initGUI();
+        initGUI();
         //Default JFrame configuration
         this.setTitle("I Know That Word");
         this.setSize(400,400);
@@ -43,23 +40,28 @@ public class GUI extends JFrame {
      * create Listener and control Objects used for the GUI class
      */
     private void initGUI() {
-        counter = 0;
-        //Set up JFrame Container's Layout
-        //Create Listener Object and Control Object
-        enterText = new JLabel("Enter a nickname");
 
-        nameUser = new FileManager();
-        escucha = new Escucha();
-        //Set up JComponents
+        setLayout(new BorderLayout());
+        panel = new JPanel();
+
         headerProject = new Header("I Know That Word", Color.BLACK);
-        this.add(headerProject,BorderLayout.NORTH); //Change this line if you change JFrame Container's Layout
-        nickName = new JTextField();
-        nickName.setBounds(50, 50, 200, 30);
-        this.add(nickName);
+        add(headerProject, BorderLayout.NORTH);
 
-        start = new JButton("Start");
-        start.addActionListener(escucha);
-        this.add(start, BorderLayout.SOUTH);
+        image  = new Fondo(new ImageIcon(getClass().getResource("/resources/imageotaku.jpg")).getImage());
+        this.setContentPane(image);
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        // Agregar el panel nicknamePanel directamente al panel principal
+        Nickname nicknamePanel = new Nickname();
+        panel.add(nicknamePanel);
+
+        add(panel, BorderLayout.CENTER);
+
+
+        pack();
+        panel.setVisible(true);
+
 
     }
 
@@ -72,32 +74,8 @@ public class GUI extends JFrame {
         EventQueue.invokeLater(() -> {
             GUI miProjectGUI = new GUI();
         });
-        Nickname name = new Nickname();
+
     }
 
-    private void CheckRecord () {
-        if (nickName.getText().contains(" ") || nickName.getText().isEmpty() || nickName.getText() == null) {
-            JOptionPane.showMessageDialog(null,"Debes ingresar un nombre","Usuario Inválido",JOptionPane.INFORMATION_MESSAGE);
-            nickName.setText("");
-        } else {
-           // System.out.println("Ingreso al else");
-            nameUser.readUsers(nickName.getText());
-           //nameUser.writer(nickName.getText());
 
-        }
-    }
-
-    /**
-     * inner class that extends an Adapter Class or implements Listeners used by GUI class
-     */
-    private class Escucha implements ActionListener {
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == start){
-            CheckRecord();
-        }
-
-        }
-    }
 }
